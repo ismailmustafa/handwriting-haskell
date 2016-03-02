@@ -16,6 +16,8 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Network.Handwriting
+                     , Network.Internal.Model
+                     , Network.Internal.Utilities
   build-depends:       base >= 4.7 && < 5
                      , wreq
                      , lens-aeson
@@ -32,6 +34,7 @@ executable handwriting-exe
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
                      , handwriting
+                     , text
   default-language:    Haskell2010
 
 test-suite handwriting-test
