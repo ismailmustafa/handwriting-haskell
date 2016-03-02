@@ -17,6 +17,13 @@ library
   hs-source-dirs:      src
   exposed-modules:     Network.Handwriting
   build-depends:       base >= 4.7 && < 5
+                     , wreq
+                     , lens-aeson
+                     , lens
+                     , bytestring
+                     , containers
+                     , aeson
+                     , text
   default-language:    Haskell2010
 
 executable handwriting-exe
