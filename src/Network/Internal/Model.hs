@@ -4,7 +4,9 @@ module Network.Internal.Model
     ( Credentials(..),
       Handwriting(..),
       ImageParams(..),
-      Color(..)
+      Color(..),
+      Format(..),
+      defaultImageParams
     ) where
 
 import Data.Aeson  (FromJSON)
@@ -43,14 +45,32 @@ instance Show Handwriting where
 instance FromJSON Handwriting
 
 type Color = (Double, Double, Double)
+data Format = PNG | PDF deriving (Show)
 
 data ImageParams = ImageParams {
-    width               :: Integer
-  , height              :: Integer
-  , handwritingSize     :: Integer
-  , handwritingColor    :: Color
-  , lineSpacing         :: Integer
-  , lineSpacingVariance :: Double
-  , wordSpacingVariance :: Double
-  , randomSeed          :: Integer
+    format              :: Format
+  , width               :: Maybe Integer
+  , height              :: Maybe Integer
+  , handwritingId       :: Maybe String
+  , handwritingSize     :: Maybe Integer
+  , handwritingColor    :: Maybe Color
+  , lineSpacing         :: Maybe Integer
+  , lineSpacingVariance :: Maybe Double
+  , wordSpacingVariance :: Maybe Double
+  , randomSeed          :: Maybe Integer
   } deriving (Show)
+
+defaultImageParams :: ImageParams
+defaultImageParams = ImageParams {
+    format              = PNG
+  , width               = Nothing
+  , height              = Nothing
+  , handwritingId       = Just "2D5S46A80003"
+  , handwritingSize     = Nothing
+  , handwritingColor    = Nothing
+  , lineSpacing         = Nothing
+  , lineSpacingVariance = Nothing
+  , wordSpacingVariance = Nothing
+  , randomSeed          = Nothing
+  }
+

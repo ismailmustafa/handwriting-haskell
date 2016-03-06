@@ -26,6 +26,8 @@ library
                      , containers
                      , aeson
                      , text
+                     , split
+                     , transformers
   default-language:    Haskell2010
 
 executable handwriting-exe
@@ -35,6 +37,9 @@ executable handwriting-exe
   build-depends:       base
                      , handwriting
                      , text
+                     , directory
+                     , bytestring
+                     , filepath
   default-language:    Haskell2010
 
 test-suite handwriting-test
