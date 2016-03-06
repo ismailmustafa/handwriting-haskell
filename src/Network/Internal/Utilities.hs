@@ -14,7 +14,7 @@ import Network.Internal.Model
 
 jsonToHandwriting :: Value -> Handwriting
 jsonToHandwriting json =
-  Handwriting { hId                  = s $ json ^? (key "id" . _String)
+  Handwriting { handwritingId        = s $ json ^? (key "id" . _String)
               , title                = s $ json ^? (key "title" . _String)
               , dateCreated          = s $ json ^? (key "date_created" . _String)
               , dateModified         = s $ json ^? (key "date_modified" . _String)

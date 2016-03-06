@@ -6,12 +6,15 @@ module Network.Internal.Model
       ImageParams(..),
       Color(..),
       Format(..),
+      PDFUnits(..),
+      RandomSeed(..),
       defaultImageParams
     ) where
 
 import Data.Aeson  (FromJSON)
 import Data.Monoid ((<>), mconcat)
 import Data.Text
+import Data.Word   (Word8)
 import GHC.Generics
 
 data Credentials = 
@@ -20,7 +23,7 @@ data Credentials =
               } deriving Show
 
 data Handwriting = Handwriting { 
-    hId                  :: Text
+    handwritingId        :: Text
   , title                :: Text
   , dateCreated          :: Text
   , dateModified         :: Text
@@ -44,20 +47,23 @@ instance Show Handwriting where
 
 instance FromJSON Handwriting
 
-type Color = (Double, Double, Double)
+type Color = (Word8, Word8, Word8)
 data Format = PNG | PDF deriving (Show)
+data RandomSeed = Randomize | Repeatable deriving (Show)
+data PDFUnits = Points | Inches deriving (Show)
 
 data ImageParams = ImageParams {
     format              :: Format
-  , width               :: Maybe Integer
-  , height              :: Maybe Integer
-  , handwritingId       :: Maybe String
-  , handwritingSize     :: Maybe Integer
-  , handwritingColor    :: Maybe Color
-  , lineSpacing         :: Maybe Integer
+  , width               :: Maybe Double
+  , height              :: Maybe Double
+  , hId                 :: Maybe String
+  , size                :: Maybe Double
+  , color               :: Maybe Color
+  , lineSpacing         :: Maybe Double
   , lineSpacingVariance :: Maybe Double
   , wordSpacingVariance :: Maybe Double
-  , randomSeed          :: Maybe Integer
+  , randomSeed          :: RandomSeed
+  , pdfUnits            :: PDFUnits
   } deriving (Show)
 
 defaultImageParams :: ImageParams
@@ -65,12 +71,13 @@ defaultImageParams = ImageParams {
     format              = PNG
   , width               = Nothing
   , height              = Nothing
-  , handwritingId       = Just "2D5S46A80003"
-  , handwritingSize     = Nothing
-  , handwritingColor    = Nothing
+  , hId                 = Just "2D5S46A80003"
+  , size                = Nothing
+  , color               = Nothing
   , lineSpacing         = Nothing
   , lineSpacingVariance = Nothing
   , wordSpacingVariance = Nothing
-  , randomSeed          = Nothing
+  , randomSeed          = Randomize
+  , pdfUnits            = Inches
   }
 

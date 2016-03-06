@@ -23,22 +23,30 @@ main = do
   --handwriting <- getHandwriting creds id
   --print handwriting
 
-  let params = defaultImageParams {width = Just 1000, height = Just 1000}
-  imageByteString <- renderImage creds params "Hello, World!"
+  let params = defaultImageParams {format              = PNG, 
+                                   hId                 = Just "31SF81NG00ES",
+                                   size                = Just 30,
+                                   color               = Just (242,38,19),
+                                   lineSpacing         = Just 2,
+                                   lineSpacingVariance = Just 0.2,
+                                   wordSpacingVariance = Just 0.4,
+                                   randomSeed          = Randomize}
+  imageByteString <- renderImage creds params "You are my delicious monkey"
   dir <- getCurrentDirectory
   let imageDir = dir </> "image.png"
-  --let pdfDir = dir </> "image.pdf"
   writeFile imageDir imageByteString
 
-
-
 --data ImageParams = ImageParams {
---    width               :: Maybe Integer
---  , height              :: Maybe Integer
---  , handwritingSize     :: Maybe Integer
+--    format              :: Format
+--  , width               :: Maybe Double
+--  , height              :: Maybe Double
+--  , handwritingId       :: Maybe String
+--  , handwritingSize     :: Maybe Double
 --  , handwritingColor    :: Maybe Color
---  , lineSpacing         :: Maybe Integer
+--  , lineSpacing         :: Maybe Double
 --  , lineSpacingVariance :: Maybe Double
 --  , wordSpacingVariance :: Maybe Double
---  , randomSeed          :: Maybe Integer
+--  , randomSeed          :: RandomSeed
+--  , units               :: Units
 --  } deriving (Show)
+
