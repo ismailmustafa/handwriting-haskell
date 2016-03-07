@@ -1,14 +1,14 @@
 name:                handwriting
 version:             0.1.0.0
-synopsis:            Initial project template from stack
+synopsis:            API Client for the handwriting.io API.
 description:         Please see README.md
-homepage:            http://github.com/ismailmustafa/handwriting#readme
+homepage:            http://github.com/ismailmustafa/handwriting-haskell#readme
 license:             BSD3
 license-file:        LICENSE
 author:              Ismail Mustafa
 maintainer:          ismailmustafa@rocketmail.com
 copyright:           2015 Ismail Mustafa
-category:            Development
+category:            Network
 build-type:          Simple
 -- extra-source-files:
 cabal-version:       >=1.10
@@ -54,4 +54,4 @@ test-suite handwriting-test
 
 source-repository head
   type:     git
-  location: https://github.com/ismailmustafa/handwriting
+  location: https://github.com/ismailmustafa/handwriting-haskell
