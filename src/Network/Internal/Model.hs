@@ -23,10 +23,10 @@ data Credentials =
               } deriving Show
 
 data Handwriting = Handwriting { 
-    handwritingId        :: Text
-  , title                :: Text
-  , dateCreated          :: Text
-  , dateModified         :: Text
+    handwritingId        :: Text 
+  , title                :: Text  
+  , dateCreated          :: Text  
+  , dateModified         :: Text  
   , ratingNeatness       :: Double
   , ratingCursivity      :: Double
   , ratingEmbellishment  :: Double

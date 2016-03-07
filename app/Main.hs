@@ -1,28 +1,37 @@
+{-# LANGUAGE_OverloadedStrings #-}
 module Main where
 
 import Network.Handwriting
 
 import System.Environment   (getEnv)
 
-import Data.ByteString.Lazy (writeFile)
+import Data.ByteString.Lazy (writeFile, ByteString)
 import Prelude hiding       (writeFile) 
 import System.Directory     (getCurrentDirectory)
 import System.FilePath      ((</>))
+import System.Random        (newStdGen, randomR)
+import Data.Text            (unpack)
 
---main :: IO (Either String Bool)
 main :: IO ()
 main = do
+  -- Credentials
   key <- getEnv "KEY"
   secret <- getEnv "SECRET"
-  
   let creds = Credentials key secret
-  --handwritings <- getHandwritings creds
-  --print $ length handwritings
 
-  --let id = "81Y6NR5000CX"
-  --handwriting <- getHandwriting creds id
-  --print handwriting
+  -- Get all handwritings
+  handwritings <- getHandwritings creds
 
+  -- Generate random number in range of handwritings
+  g <- newStdGen
+  let rand = randomR (0, length handwritings - 1) g
+
+  -- Select random handwriting font
+  let id = unpack $ handwritingId $ handwritings !! fst rand
+  handwriting <- getHandwriting creds id
+  print handwriting
+
+  -- Generate image
   let params = defaultImageParams {format              = PNG, 
                                    hId                 = Just "31SF81NG00ES",
                                    size                = Just 30,
@@ -31,22 +40,15 @@ main = do
                                    lineSpacingVariance = Just 0.2,
                                    wordSpacingVariance = Just 0.4,
                                    randomSeed          = Randomize}
-  imageByteString <- renderImage creds params "You are my delicious monkey"
-  dir <- getCurrentDirectory
-  let imageDir = dir </> "image.png"
-  writeFile imageDir imageByteString
+  imageByteString <- renderImage creds params "Hello World!"
 
---data ImageParams = ImageParams {
---    format              :: Format
---  , width               :: Maybe Double
---  , height              :: Maybe Double
---  , handwritingId       :: Maybe String
---  , handwritingSize     :: Maybe Double
---  , handwritingColor    :: Maybe Color
---  , lineSpacing         :: Maybe Double
---  , lineSpacingVariance :: Maybe Double
---  , wordSpacingVariance :: Maybe Double
---  , randomSeed          :: RandomSeed
---  , units               :: Units
---  } deriving (Show)
+  -- Write image to current directory
+  writeHandwritingFile imageByteString "image.png"
+
+writeHandwritingFile :: ByteString -> String -> IO ()
+writeHandwritingFile image name = do
+  dir <- getCurrentDirectory
+  let imageDir = dir </> name
+  writeFile imageDir image
+
 
