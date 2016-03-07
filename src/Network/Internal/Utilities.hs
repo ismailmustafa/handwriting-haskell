@@ -1,5 +1,18 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+-------------------------------------------------------------------------------
+-- |
+-- Module : Network.Internal.Utilities
+-- Copyright : (C) 2016 Ismail Mustafa
+-- License : BSD-style (see the file LICENSE)
+-- Maintainer : Ismail Mustafa <ismailmustafa@rocketmail.com
+-- Stability : provisional
+-- Portability : OverloadedStrings
+--
+-- Helper functions that don't blong anywhere else.
+--
+-------------------------------------------------------------------------------
+
 module Network.Internal.Utilities
     ( jsonToHandwriting,
       processImageParams
@@ -13,9 +26,10 @@ import Data.Monoid     ((<>))
 import Network.Wreq
 import Numeric         (showHex, showFFloat)
 
-
 import Network.Internal.Model
 
+{-| Convert a json object to a handwriting data type.
+-}
 jsonToHandwriting :: Value -> Handwriting
 jsonToHandwriting json =
   Handwriting { handwritingId        = s $ json ^? (key "id" . _String)
@@ -30,6 +44,9 @@ jsonToHandwriting json =
                 where s = fromMaybe ""
                       d = fromMaybe 0
 
+{-| Takes in image parameters and the text to render and generates
+    a properly formatted endpoint.
+-}
 processImageParams :: ImageParams -> String -> String
 processImageParams ip s = mconcat [hFormat, handId, hSize, hColor, 
                                    hText, hWidth, hHeight,
@@ -48,24 +65,27 @@ processImageParams ip s = mconcat [hFormat, handId, hSize, hColor,
         hWordSpaceVar = fromMaybe "" $ (("&word_spacing_variance="<>) . show) <$> wordSpacingVariance ip 
         hRandomSeed   = "&random_seed=" <> case randomSeed ip of {Randomize -> "-1" ; Repeatable -> "1"}
 
+{-| Convert RGB to either hex or png depending on output format.
+-}
 handleColor :: Format -> Maybe Color -> String
 handleColor format color = case format of
                                   PNG -> fromMaybe "" $ toHex <$> color
                                   PDF -> fromMaybe "" $ toCMYK <$> color
 
+{-| Convert RGB to Hex.
+-}
 toHex :: Color -> String
 toHex (r,g,b) = "&handwriting_color=" <> showHex r "" <> showHex g "" 
                                       <> showHex b ""
 
+{-| Limit double values to 3 significant figures.
+-}
 sigFigs :: Double -> String
 sigFigs floatNum = showFFloat (Just 3) floatNum ""
 
-convertRGBtoCMY :: Color -> (Double,Double,Double)
-convertRGBtoCMY (r,g,b) = (c, m, y)
-  where c = 1 - (fromIntegral r / 255)
-        m = 1 - (fromIntegral g / 255)
-        y = 1 - (fromIntegral b / 255)
 
+{-| Convert RGB to CMYK.
+-}
 toCMYK :: Color -> String
 toCMYK color = "&handwriting_color=" <> "(" <> sigFigs c <> "," <> sigFigs m 
                                      <> "," <> sigFigs y <> "," <> sigFigs k 
@@ -75,3 +95,11 @@ toCMYK color = "&handwriting_color=" <> "(" <> sigFigs c <> "," <> sigFigs m
         c = ( c0 - k ) / ( 1 - k )
         m = ( m0 - k ) / ( 1 - k )
         y = ( y0 - k ) / ( 1 - k )
+
+{-| Convert RGB to CMY.
+-}
+convertRGBtoCMY :: Color -> (Double,Double,Double)
+convertRGBtoCMY (r,g,b) = (c, m, y)
+  where c = 1 - (fromIntegral r / 255)
+        m = 1 - (fromIntegral g / 255)
+        y = 1 - (fromIntegral b / 255)

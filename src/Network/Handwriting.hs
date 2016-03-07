@@ -1,5 +1,18 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+-------------------------------------------------------------------------------
+-- |
+-- Module : Network.Handwriting
+-- Copyright : (C) 2016 Ismail Mustafa
+-- License : BSD-style (see the file LICENSE)
+-- Maintainer : Ismail Mustafa <ismailmustafa@rocketmail.com
+-- Stability : provisional
+-- Portability : OverloadedStrings
+--
+-- API Client for the handwriting.io API.
+--
+-------------------------------------------------------------------------------
+
 module Network.Handwriting
     ( getHandwritings,
       getHandwriting,
@@ -34,18 +47,49 @@ baseUrl = "https://api.handwriting.io/"
 opts :: Credentials -> Options
 opts c = defaults & auth ?~ basicAuth (pack $ keyToken c) (pack $ secretToken c)
 
-getHandwritings :: Credentials -> IO [Handwriting]
-getHandwritings c = do
-  response     <- getWith (opts c) $ baseUrl <> "handwritings"
-  jsonResponse <- asValue response
-  return $ jsonToHandwriting <$> toListOf (responseBody . _Array . traverse) jsonResponse
-
+-- | Get a single handwriting by id.
+--
+-- > import Network.Handwriting
+-- > creds :: Credentials
+-- > creds = Credentials "key" "secret"
+-- > 
+-- > main :: IO ()
+-- > main = do
+-- >     handwritings <- getHandwritings creds "31SF81NG00ES"
+--
 getHandwriting :: Credentials -> String -> IO Handwriting
 getHandwriting c hId = do
   response     <- getWith (opts c) $ baseUrl <> "handwritings/" <> hId
   jsonResponse <- asValue response
   return $ jsonToHandwriting $ jsonResponse ^. responseBody
 
+-- | Get a list of all Handwritings.
+--
+-- > import Network.Handwriting
+-- > creds :: Credentials
+-- > creds = Credentials "key" "secret"
+-- > 
+-- > main :: IO ()
+-- > main = do
+-- >     handwritings <- getHandwritings creds
+--
+getHandwritings :: Credentials -> IO [Handwriting]
+getHandwritings c = do
+  response     <- getWith (opts c) $ baseUrl <> "handwritings"
+  jsonResponse <- asValue response
+  return $ jsonToHandwriting <$> toListOf (responseBody . _Array . traverse) jsonResponse
+
+-- | Get a handwriting image as either a PDF or PNG.
+--
+-- > import Network.Handwriting
+-- > creds :: Credentials
+-- > creds = Credentials "key" "secret"
+-- > 
+-- > main :: IO ()
+-- > main = do
+-- >     let params = defaultImageParams {format = PDF}
+-- >     imageByteString <- renderImage creds params "Hello World!"
+--
 renderImage :: Credentials -> ImageParams -> String -> IO BSL.ByteString
 renderImage c ip s = do
   let endpointString = processImageParams ip s

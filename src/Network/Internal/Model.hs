@@ -1,5 +1,18 @@
 {-# LANGUAGE OverloadedStrings, DeriveGeneric #-}
 
+-------------------------------------------------------------------------------
+-- |
+-- Module : Network.Internal.Model
+-- Copyright : (C) 2016 Ismail Mustafa
+-- License : BSD-style (see the file LICENSE)
+-- Maintainer : Ismail Mustafa <ismailmustafa@rocketmail.com
+-- Stability : provisional
+-- Portability : OverloadedStrings
+--
+-- Model definitions for the API wrapper.
+--
+-------------------------------------------------------------------------------
+
 module Network.Internal.Model
     ( Credentials(..),
       Handwriting(..),
@@ -17,11 +30,16 @@ import Data.Text
 import Data.Word   (Word8)
 import GHC.Generics
 
+{-| Credentials that take and key and secret token.
+-}
 data Credentials = 
   Credentials { keyToken    :: String
               , secretToken :: String
               } deriving Show
 
+{-| Handwriting data type that contains all the information
+    about a specific handwriting style.
+-}
 data Handwriting = Handwriting { 
     handwritingId        :: Text 
   , title                :: Text  
@@ -33,6 +51,8 @@ data Handwriting = Handwriting {
   , ratingCharacterWidth :: Double
   } deriving (Generic)
 
+{-| Pretty print the handwriting data type.
+-}
 instance Show Handwriting where
   show (Handwriting a b c d e f g h) = "{"
     <> mconcat ["       Handwriting Id: ", show a, "\n"]  
@@ -45,13 +65,33 @@ instance Show Handwriting where
     <> mconcat ["Rating CharacterWidth: ", show h, "\n"]
     <> "}"
 
+{-| Handwriting JSON instance.
+-}
 instance FromJSON Handwriting
 
+{-| Color type representing (R,G,B).
+-}
 type Color = (Word8, Word8, Word8)
+
+{-| Format determines Rendered image format in either 
+    png or pdf.
+-}
 data Format = PNG | PDF deriving (Show)
+
+{-| RandomSeed is used to specify is every rendered
+    image called with the same parameters should render
+    differently or the same every time.
+-}
 data RandomSeed = Randomize | Repeatable deriving (Show)
+
+{-| PDFUnits is used to specify measurements when rendering
+    a PDF.
+-}
 data PDFUnits = Points | Inches deriving (Show)
 
+{-| Optional image parameters that dictate different
+    properties of the rendered image.
+-}
 data ImageParams = ImageParams {
     format              :: Format
   , width               :: Maybe Double
@@ -66,6 +106,8 @@ data ImageParams = ImageParams {
   , pdfUnits            :: PDFUnits
   } deriving (Show)
 
+{-| Default image parameters provided for convenience.
+-}
 defaultImageParams :: ImageParams
 defaultImageParams = ImageParams {
     format              = PNG
@@ -80,4 +122,3 @@ defaultImageParams = ImageParams {
   , randomSeed          = Randomize
   , pdfUnits            = Inches
   }
-
