@@ -73,7 +73,7 @@ main = do
 The optional image paramters data type is show below:
 ```hs
 data ImageParams = ImageParams {
-format              :: Format       -- PNG | PDF
+  format              :: Format       -- PNG | PDF
 , width               :: Maybe Double -- Units are Pixels for PNG and Inches or Points for PDF
 , height              :: Maybe Double 
 , hId                 :: Maybe String -- ID of the handwriting style selected
