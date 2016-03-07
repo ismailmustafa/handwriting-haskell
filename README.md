@@ -25,7 +25,6 @@ creds = Credentials "key" "secret"
 main :: IO ()
 main = do
 	handwritings <- getHandwritings creds
-
 ```
 
 ### /handwritings/{id}
@@ -99,9 +98,9 @@ creds = Credentials "key" "secret"
 
 main :: IO ()
 main = do
-	let params = defaultImageParams {width = Just 800, 
-    								 height = Just 600, 
-                                     color = Just (255,0,0)}
+	let params = defaultImageParams { width  = Just 800
+                                       , height = Just 600
+                                       , color  = Just (255,0,0) }
 	imageByteString <- renderImage creds params "Hello World!"
 ```
 
@@ -114,9 +113,9 @@ creds = Credentials "key" "secret"
 
 main :: IO ()
 main = do
-	let params = defaultImageParams {width = Just 8.5, 
-    								 height = Just 11, 
-                                     color = Just (0,0,255)
-                                     pdfUnits: Inches}
+	let params = defaultImageParams { width    = Just 8.5
+                                       , height   = Just 11
+                                       , color    = Just (0,0,255)
+                                       , pdfUnits = Inches }
 	imageByteString <- renderImage creds params "Hello World!"
 ```
