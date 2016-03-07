@@ -1,4 +1,4 @@
-{-# LANGUAGE_OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings #-}
 module Main where
 
 import Network.Handwriting
