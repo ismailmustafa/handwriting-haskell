@@ -14,17 +14,19 @@
 -------------------------------------------------------------------------------
 
 module Network.Handwriting
-    ( getHandwritings,
+    ( -- * Endpoints
       getHandwriting,
+      getHandwritings,
+      renderImage,
+      -- * Types, DataTypes, and Utilites
+      Color,
       Credentials(..),
+      defaultImageParams,
+      Format(..),
       Handwriting(..),
       ImageParams(..),
-      Format(..),
       PDFUnits(..),
       RandomSeed(..),
-      Color,
-      defaultImageParams,
-      renderImage
     ) where
 
 import           Control.Lens          ((&), (?~), (^.), toListOf)
