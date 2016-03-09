@@ -68,19 +68,20 @@ instance Show Handwriting where
 {-| Handwriting JSON instance.
 -}
 instance FromJSON Handwriting
+instance ToJSON Handwriting
 
 {-| Color type representing (R,G,B).
 -}
 type Color = (Word8, Word8, Word8)
 
-{-| Format determines Rendered image format in either 
+{-| Format determines rendered image format in either 
     png or pdf.
 -}
 data Format = PNG | PDF deriving (Show)
 
-{-| RandomSeed is used to specify is every rendered
+{-| RandomSeed is used to specify if every rendered
     image called with the same parameters should render
-    differently or the same every time.
+    differently or the same each time.
 -}
 data RandomSeed = Randomize | Repeatable deriving (Show)
 

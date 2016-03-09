@@ -18,7 +18,7 @@ module Network.Handwriting
       getHandwriting,
       getHandwritings,
       renderImage,
-      -- * Types, DataTypes, and Utilites
+      -- * Types, DataTypes, and Utilities
       Color,
       Credentials(..),
       defaultImageParams,

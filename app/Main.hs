@@ -33,12 +33,12 @@ main = do
 
   -- Generate image
   let params = defaultImageParams {format              = PNG, 
-                                   hId                 = Just "31SF81NG00ES",
-                                   size                = Just 30,
-                                   color               = Just (242,38,19),
+                                   hId                 = Just "31SB2CWG00DZ",
+                                   size                = Just 205,
                                    lineSpacing         = Just 2,
                                    lineSpacingVariance = Just 0.2,
                                    wordSpacingVariance = Just 0.4,
+                                   width               = Just 800,
                                    randomSeed          = Randomize}
   imageByteString <- renderImage creds params "Hello World!"
 

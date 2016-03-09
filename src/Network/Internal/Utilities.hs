@@ -9,7 +9,7 @@
 -- Stability : provisional
 -- Portability : OverloadedStrings
 --
--- Helper functions that don't blong anywhere else.
+-- Helper functions that don't belong anywhere else.
 --
 -------------------------------------------------------------------------------
 
