@@ -24,7 +24,7 @@ module Network.Internal.Model
       defaultImageParams
     ) where
 
-import Data.Aeson  (FromJSON)
+import Data.Aeson  (FromJSON, ToJSON)
 import Data.Monoid ((<>), mconcat)
 import Data.Text
 import Data.Word   (Word8)
