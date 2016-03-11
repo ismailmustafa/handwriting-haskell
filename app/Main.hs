@@ -39,6 +39,7 @@ main = do
                                    lineSpacingVariance = Just 0.2,
                                    wordSpacingVariance = Just 0.4,
                                    width               = Just 800,
+                                   color               = Just (0,0,0),
                                    randomSeed          = Randomize}
   imageByteString <- renderImage creds params "Hello World!"
 

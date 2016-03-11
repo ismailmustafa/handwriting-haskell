@@ -1,5 +1,5 @@
 name:                handwriting
-version:             0.1.0.2
+version:             0.1.0.3
 synopsis:            API Client for the handwriting.io API.
 description:         Please see README.md
 homepage:            http://github.com/ismailmustafa/handwriting-haskell#readme

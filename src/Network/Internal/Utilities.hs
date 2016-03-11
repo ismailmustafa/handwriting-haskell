@@ -75,8 +75,10 @@ handleColor format color = case format of
 {-| Convert RGB to Hex.
 -}
 toHex :: Color -> String
-toHex (r,g,b) = "&handwriting_color=" <> showHex r "" <> showHex g "" 
-                                      <> showHex b ""
+toHex (r,g,b) = "&handwriting_color=" <> pad (showHex r "")
+                                      <> pad (showHex g "")
+                                      <> pad (showHex b "")
+  where pad s | length s == 1 = "0" <> s | otherwise = s
 
 {-| Limit double values to 3 significant figures.
 -}
