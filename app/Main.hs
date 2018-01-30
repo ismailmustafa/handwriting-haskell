@@ -2,9 +2,7 @@
 module Main where
 
 import Network.Handwriting
-
 import System.Environment   (getEnv)
-
 import Data.ByteString.Lazy (writeFile, ByteString)
 import Prelude hiding       (writeFile) 
 import System.Directory     (getCurrentDirectory)
@@ -32,15 +30,17 @@ main = do
   print handwriting
 
   -- Generate image
-  let params = defaultImageParams {format              = PNG, 
-                                   hId                 = Just "31SB2CWG00DZ",
-                                   size                = Just 205,
-                                   lineSpacing         = Just 2,
-                                   lineSpacingVariance = Just 0.2,
-                                   wordSpacingVariance = Just 0.4,
-                                   width               = Just 800,
-                                   color               = Just (0,0,0),
-                                   randomSeed          = Randomize}
+  let params = defaultImageParams {
+    format = PNG,
+    hId = Just "31SB2CWG00DZ",
+    size = Just 205,
+    lineSpacing = Just 2,
+    lineSpacingVariance = Just 0.2,
+    wordSpacingVariance = Just 0.4,
+    width = Just 800,
+    color = Just (0,0,0),
+    randomSeed = Randomize
+    }
   imageByteString <- renderImage creds params "Hello World!"
 
   -- Write image to current directory
