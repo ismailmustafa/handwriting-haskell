@@ -24,7 +24,7 @@ creds = Credentials "key" "secret"
 
 main :: IO ()
 main = do
-	handwritings <- getHandwritings creds
+  handwritings <- getHandwritings creds
 ```
 
 ### /handwritings/{id}
@@ -37,7 +37,7 @@ creds = Credentials "key" "secret"
 
 main :: IO ()
 main = do
-	handwriting <- getHandwriting creds "31SF81NG00ES"
+  handwriting <- getHandwriting creds "31SF81NG00ES"
 ```
 
 ### /render/png
@@ -50,7 +50,7 @@ creds = Credentials "key" "secret"
 
 main :: IO ()
 main = do
-	imageByteString <- renderImage creds defaultImageParams "Hello World!"
+  imageByteString <- renderImage creds defaultImageParams "Hello World!"
 ```
 
 ### /render/pdf
@@ -63,8 +63,8 @@ creds = Credentials "key" "secret"
 
 main :: IO ()
 main = do
-	let params = defaultImageParams {format = PDF}
-	imageByteString <- renderImage creds params "Hello World!"
+  let params = defaultImageParams { format = PDF }
+  imageByteString <- renderImage creds params "Hello World!"
 ```
 
 ### Optional Parameters
@@ -81,8 +81,8 @@ data ImageParams = ImageParams {
 , lineSpacing         :: Maybe Double -- Spacing between lines of handwriting. Between 0 and 5
 , lineSpacingVariance :: Maybe Double -- Randomizes line spacing, 0 - 1
 , wordSpacingVariance :: Maybe Double -- Randomizes word spacing, 0 - 1
-, randomSeed          :: RandomSeed   -- Randomize : (image for same text is DIFFERENT on every call) 
-									  -- Repeatable : (image for same text is the SAME on every call)
+, randomSeed          :: RandomSeed   -- Randomize : (image for same text is DIFFERENT on every call)
+                                      -- Repeatable : (image for same text is the SAME on every call)
 , pdfUnits            :: PDFUnits     -- Inches | Points
 } deriving (Show)
 ```
@@ -98,10 +98,11 @@ creds = Credentials "key" "secret"
 
 main :: IO ()
 main = do
-	let params = defaultImageParams { width  = Just 800
-                                    , height = Just 600
-                                    , color  = Just (255,0,0) }
-	imageByteString <- renderImage creds params "Hello World!"
+  let params = defaultImageParams { width  = Just 800
+                                  , height = Just 600
+                                  , color  = Just (255,0,0)
+				  }
+  imageByteString <- renderImage creds params "Hello World!"
 ```
 
 8.5 inches x 11 inches PDF with blue text:
@@ -113,9 +114,10 @@ creds = Credentials "key" "secret"
 
 main :: IO ()
 main = do
-	let params = defaultImageParams { width    = Just 8.5
-                                    , height   = Just 11
-                                    , color    = Just (0,0,255)
-                                    , pdfUnits = Inches }
-	imageByteString <- renderImage creds params "Hello World!"
+  let params = defaultImageParams { width    = Just 8.5
+                                  , height   = Just 11
+                                  , color    = Just (0,0,255)
+                                  , pdfUnits = Inches
+				  }
+  imageByteString <- renderImage creds params "Hello World!"
 ```
